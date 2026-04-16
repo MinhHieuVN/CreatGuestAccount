@@ -1,75 +1,31 @@
-:root {
-    --gold: #ffcc00;
-    --neon-blue: #00f2ff;
-    --bg: #0a0a0c;
-}
-
 body {
-    background: var(--bg);
-    color: white;
+    background: #050505;
+    color: #fff;
     font-family: 'Rajdhani', sans-serif;
-    margin: 0;
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0a0c 100%);
 }
-
-.container { width: 90%; max-width: 900px; padding: 40px 0; }
-
-.neon-text {
-    text-align: center;
-    font-family: 'Orbitron', sans-serif;
-    color: var(--neon-blue);
-    text-shadow: 0 0 15px var(--neon-blue);
-    letter-spacing: 3px;
-}
-
-.gold-text { color: var(--gold); text-shadow: 0 0 15px var(--gold); }
-
+.container { width: 95%; max-width: 700px; padding-top: 40px; }
+.neon-text { font-family: 'Orbitron'; color: #00f2ff; text-align: center; text-shadow: 0 0 10px #00f2ff; }
+.gold-text { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
 .glass-card {
     background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex; gap: 10px; margin-bottom: 20px;
 }
-
-.config-panel { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-
-.input-group { display: flex; flex-direction: column; gap: 5px; }
-
-input, select {
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid var(--gold);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-}
-
-.cyber-button {
-    background: var(--gold);
-    border: none;
-    padding: 10px 25px;
-    font-weight: bold;
-    cursor: pointer;
+.cyber-btn {
+    background: #ffcc00; border: none; padding: 10px 20px;
+    font-weight: bold; cursor: pointer; color: #000;
     clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-    transition: 0.3s;
 }
-
-.cyber-button:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--gold); }
-
-.result-card {
-    background: rgba(255, 255, 255, 0.03);
-    border-left: 4px solid var(--gold);
-    padding: 15px;
-    margin-top: 10px;
-    border-radius: 4px;
+.cyber-btn.blue { background: #00f2ff; }
+.result-box {
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 4px solid #ffcc00;
+    padding: 15px; margin-top: 10px; border-radius: 4px;
 }
-
-.label { color: var(--neon-blue); font-weight: bold; margin-right: 10px; }
-
-#actionButtons { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-
 .hidden { display: none !important; }
