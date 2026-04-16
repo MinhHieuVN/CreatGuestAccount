@@ -1,57 +1,48 @@
-let savedAccounts = [];
+let accounts = [];
 
 document.getElementById('genBtn').addEventListener('click', async () => {
-    const name = document.getElementById('namePrefix').value;
-    const region = document.getElementById('region').value;
-    const count = document.getElementById('count').value;
-    
-    const resultArea = document.getElementById('resultArea');
+    const results = document.getElementById('results');
     const loading = document.getElementById('loading');
-    const actions = document.getElementById('actionButtons');
-
-    resultArea.innerHTML = '';
+    const actions = document.getElementById('actionArea');
+    
     loading.classList.remove('hidden');
+    results.innerHTML = '';
     actions.classList.add('hidden');
 
+    const prefix = document.getElementById('prefix').value;
+    const region = document.getElementById('region').value;
+    const count = document.getElementById('count').value;
+
     try {
-        const res = await fetch(`/gen?name=${name}&region=${region}&count=${count}`);
+        const res = await fetch(`/gen?name=${prefix}&region=${region}&count=${count}`);
         const data = await res.json();
         
         loading.classList.add('hidden');
-        if(data.success) {
-            savedAccounts = data.accounts;
+        if(data.success && data.accounts.length > 0) {
+            accounts = data.accounts;
             actions.classList.remove('hidden');
-            
             data.accounts.forEach(acc => {
-                const card = document.createElement('div');
-                card.className = 'result-card';
-                card.innerHTML = `
-                    <div><span class="label">UID:</span>${acc.uid}</div>
-                    <div><span class="label">PASS:</span>${acc.password}</div>
-                    <div><span class="label">TÊN:</span>${acc.name}</div>
-                `;
-                resultArea.appendChild(card);
+                results.innerHTML += `
+                    <div class="result-box">
+                        <b>UID|PASS:</b> ${acc.uid}|${acc.password} <br>
+                        <b>TOKEN:</b> <small style="word-break:break-all">${acc.access_token}</small>
+                    </div>`;
             });
         }
-    } catch (e) {
-        alert("Lỗi kết nối API!");
-        loading.classList.add('hidden');
-    }
+    } catch (e) { alert("Lỗi kết nối!"); loading.classList.add('hidden'); }
 });
 
 document.getElementById('exportBtn').addEventListener('click', () => {
-    let txt = "DANH SÁCH TÀI KHOẢN\n" + "=".repeat(20) + "\n";
-    savedAccounts.forEach(a => txt += `UID: ${a.uid} | PASS: ${a.password} | TÊN: ${a.name}\n`);
-    const blob = new Blob([txt], {type: 'text/plain'});
-    const url = URL.createObjectURL(blob);
+    const text = accounts.map(a => `UID: ${a.uid} | PASS: ${a.password} | TOKEN: ${a.access_token}`).join('\n');
+    const blob = new Blob([text], {type: 'text/plain'});
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `accounts_${Date.now()}.txt`;
+    a.href = URL.createObjectURL(blob);
+    a.download = 'accounts.txt';
     a.click();
 });
 
-document.getElementById('copyAllBtn').addEventListener('click', () => {
-    const text = savedAccounts.map(a => `${a.uid}|${a.password}`).join('\n');
+document.getElementById('copyBtn').addEventListener('click', () => {
+    const text = accounts.map(a => `${a.uid}|${a.password}`).join('\n');
     navigator.clipboard.writeText(text);
-    alert("Đã copy định dạng UID|PASS");
+    alert("Đã copy UID|PASS");
 });
